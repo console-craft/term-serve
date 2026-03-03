@@ -1,0 +1,2 @@
+- Bundled AI agent (Pi) - completely turned off by default, use it if you like with your own API keys (`OpenRouter`, etc.) or OAuth logins (`OpenAI` / `Github Copilot` / `Google Gemini`).
+- Electron based client app - manage multiple `term-serve` sessions, provide a richer UI (tabs, config section, etc.), and integrate with the OS (native notifications, system-tray/dock, etc.).

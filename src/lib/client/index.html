@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,interactive-widget=resizes-content" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <title>Term Serve</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="spotlight-bg">
+    <div class="terminal-window">
+      <div class="title-bar">
+        <div class="traffic-lights">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+        <div class="title-text">
+          <span class="title">Term Serve</span>
+          <span class="origin">
+            <span class="origin-scheme"></span>
+            <span class="origin-host">Undetermined remote host</span>
+            <span class="origin-port"></span>
+          </span>
+        </div>
+        <div class="system-tray">
+          <button type="button" class="keymaps-palette-button" title="Keymaps palette"><span class="magnifying-glass-icon"></span></button>
+          <div class="connection-status">
+            <div class="status-dot connecting"></div>
+            <span class="status-text">Connecting…</span>
+          </div>
+        </div>
+      </div>
+      <div class="terminal-content" id="terminal"></div>
+      <div class="toolbar">
+        <div class="keys">          
+          <button type="button" class="kbd-switch-keys switch-keys-button" title="Switch keys">
+            <span class="kbd-switch-keys-icon">⇄</span>
+            <span class="kbd-switch-keys-text">Keys</span>
+          </button>
+          <div class="primary-buttons">
+            <button type="button" class="kbd-key-special escape-button" title="Cancel interactive action">Esc</button>
+            <button type="button" class="kbd-key-special tab-button" title="Autocomplete command or path">Tab</button>
+            <button type="button" class="kbd-key-special ctrl-button" title="Toggle Control key modifier">Ctrl</button>
+            <button type="button" class="kbd-key-special alt-button" title="Toggle Alt key modifier">Alt</button>
+            <div class="spacer"></div>
+            <button type="button"  class="ctrl-a-button" title="Move cursor to begining of line">^A</button>
+            <button type="button"  class="ctrl-e-button" title="Move cursor to end of line">^E</button>
+            <button type="button"  class="ctrl-w-button" title="Delete previous word">^W</button>
+            <button type="button" class="ctrl-c-button" title="Interrupt current process">^C</button>
+            <div class="spacer"></div>
+            <button type="button"  class="ctrl-h-button" title="Delete previous character">^H</button>
+            <button type="button"  class="ctrl-j-button" title="New line (accept line or autocomplete)">^J</button>
+            <button type="button"  class="ctrl-k-button" title="Delete to end of line">^K</button>
+            <button type="button"  class="ctrl-l-button" title="Clear screen">^L</button>
+            <div class="spacer"></div>
+            <button type="button" class="kbd-key-slash slash-button" title="Forwared-search (vim/less)">/</button>
+            <button type="button" class="kbd-key-return key-return return-button" title="Return key">↵</button>
+          </div>
+          <div class="secondary-buttons hidden">
+            <button type="button" class="ctrl-e-button" title="Scroll down one line (vim/less)">^E</button>
+            <button type="button" class="ctrl-y-button" title="Scroll up one line (vim/less)">^Y</button>
+            <button type="button" class="ctrl-n-button" title="Next command in history | Next item (vim)">^N</button>
+            <button type="button" class="ctrl-p-button" title="Previous command in history | Previous item (vim)">^P</button>
+            <div class="spacer"></div>
+            <button type="button" class="ctrl-f-button" title="Move cursor forward one character | Page down (vim/less)">^F</button>
+            <button type="button" class="ctrl-b-button" title="Move cursor backward one character | Page up (vim/less)">^B</button>
+            <button type="button" class="ctrl-d-button" title="Delete current character or exit shell | Half page down (vim/less)">^D</button>
+            <button type="button" class="ctrl-u-button" title="Delete to beginning of line | Half page down (vim/less)">^U</button>
+            <div class="spacer"></div>
+            <button type="button" class="kbd-key-arrow left-arrow-button" title="Move cursor left">←</button>
+            <button type="button" class="kbd-key-arrow down-arrow-button" title="Next command in history">↓</button>
+            <button type="button" class="kbd-key-arrow up-arrow-button" title="Previous command in history">↑</button>
+            <button type="button" class="kbd-key-arrow right-arrow-button" title="Move cursor right">→</button>
+            <div class="spacer"></div>
+            <div class="primary-buttons-clipboard">            
+              <button type="button" class="primary-copy copy-button" title="Copy selection to clipboard">⧉</button>
+              <button type="button" class="primary-paste paste-button" title="Paste clipboard content">⤓</button>
+            </div>
+          </div>
+          <div class="copy-mode-buttons hidden">
+            <button type="button" class="kbd-key-arrow left-arrow-button" title="Left arrow key">←</button>
+            <button type="button" class="kbd-key-arrow down-arrow-button" title="Down arrow key">↓</button>
+            <button type="button" class="kbd-key-arrow up-arrow-button" title="Up arrow key">↑</button>
+            <button type="button" class="kbd-key-arrow right-arrow-button" title="Right arrow key">→</button>
+            <div class="spacer"></div>
+            <button type="button" class="copy-mode-select-button" title="Start selection">「」</button>
+            <button type="button" class="copy-mode-copy-button" title="Copy to clipboard">✓</button>
+            <button type="button" class="copy-mode-esc-button" title="Cancel selection / Exit copy mode">Esc</button>
+          </div>
+        </div>
+        <div class="clipboard">
+          <button type="button" class="kbd-clipboard copy-button" title="Copy selection to clipboard">
+            <span class="kbd-clipboard-icon">⧉</span>
+            <span class="kbd-clipboard-text">Copy</span>
+          </button>
+          <button type="button" class="kbd-clipboard paste-button" title="Paste from clipboard">
+            <span class="kbd-clipboard-icon">⤓</span>
+            <span class="kbd-clipboard-text">Paste</span>
+          </button>
+        </div>
+      </div>
+      <div class="keymaps-palette hidden" role="dialog" aria-modal="true" aria-labelledby="keymaps-palette-title">
+        <div class="keymaps-palette-panel">
+          <input
+            type="search"
+            class="keymaps-palette-input"
+            placeholder="Search keymaps…"
+            autocomplete="off"
+          />
+          <ul class="keymaps-palette-list" aria-label="Key sequence list"></ul>
+          <p class="keymaps-palette-empty hidden">No matching keymaps found.</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./app.ts"></script>
+  </body>
+</html>

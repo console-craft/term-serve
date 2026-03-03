@@ -1,0 +1,37 @@
+diff --git a/dist/ghostty-web.js b/dist/ghostty-web.js
+index f5022ec603b70427cc358d1d01cc35d0417bb9cd..914296778ae557af07db2907b9331e9b4ebee491 100644
+--- a/dist/ghostty-web.js
++++ b/dist/ghostty-web.js
+@@ -2081,8 +2081,8 @@ const R = class Y {
+    * Select all text in the terminal
+    */
+   selectAll() {
+-    const A = this.wasmTerm.getDimensions(), B = this.getViewportY();
+-    this.selectionStart = { col: 0, absoluteRow: B }, this.selectionEnd = { col: A.cols - 1, absoluteRow: B + A.rows - 1 }, this.requestRender(), this.selectionChangedEmitter.fire();
++    const A = this.wasmTerm.getDimensions(), B = this.wasmTerm.getScrollbackLength(), g = Math.max(0, B + A.rows - 1);
++    this.selectionStart = { col: 0, absoluteRow: 0 }, this.selectionEnd = { col: A.cols - 1, absoluteRow: g }, this.requestRender(), this.selectionChangedEmitter.fire();
+   }
+   /**
+    * Select text at specific column and row with length
+@@ -2095,8 +2095,8 @@ const R = class Y {
+     for (; I >= E.cols; )
+       I -= E.cols, C++;
+     C = Math.min(C, E.rows - 1);
+-    const D = this.getViewportY();
+-    this.selectionStart = { col: A, absoluteRow: D + B }, this.selectionEnd = { col: I, absoluteRow: D + C }, this.requestRender(), this.selectionChangedEmitter.fire();
++    const D = this.viewportRowToAbsolute(B), o = this.viewportRowToAbsolute(C);
++    this.selectionStart = { col: A, absoluteRow: D }, this.selectionEnd = { col: I, absoluteRow: o }, this.requestRender(), this.selectionChangedEmitter.fire();
+   }
+   /**
+    * Select entire lines from start to end
+@@ -2105,8 +2105,8 @@ const R = class Y {
+   selectLines(A, B) {
+     const g = this.wasmTerm.getDimensions();
+     A = Math.max(0, Math.min(A, g.rows - 1)), B = Math.max(0, Math.min(B, g.rows - 1)), A > B && ([A, B] = [B, A]);
+-    const E = this.getViewportY();
+-    this.selectionStart = { col: 0, absoluteRow: E + A }, this.selectionEnd = { col: g.cols - 1, absoluteRow: E + B }, this.requestRender(), this.selectionChangedEmitter.fire();
++    const E = this.viewportRowToAbsolute(A), C = this.viewportRowToAbsolute(B);
++    this.selectionStart = { col: 0, absoluteRow: E }, this.selectionEnd = { col: g.cols - 1, absoluteRow: C }, this.requestRender(), this.selectionChangedEmitter.fire();
+   }
+   /**
+    * Get selection position as buffer range

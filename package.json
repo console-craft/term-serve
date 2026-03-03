@@ -1,0 +1,48 @@
+{
+  "name": "term-serve",
+  "version": "1.0.0",
+  "description": "Serve a local terminal in the browser (WebSocket + PTY).",
+  "keywords": [
+    "terminal",
+    "pty",
+    "ghostty",
+    "websocket",
+    "browser"
+  ],
+  "author": "Ovi Ispas",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/console-craft/term-serve.git"
+  },
+  "homepage": "https://term-serve.console-craft.com",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
+  "scripts": {
+    "dev": "bun run --hot src/cli.ts",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write --unsafe .",
+    "typecheck": "tsgo -p tsconfig.json --noEmit",
+    "test": "bun test",
+    "build": "bun run build:linux && bun run build:mac && bun run build:win",
+    "build:linux": "bun build ./src/cli.ts --compile --target=bun-linux-x64 --outfile ./dist/term-serve-linux-x64",
+    "build:mac": "bun build ./src/cli.ts --compile --target=bun-darwin-arm64 --outfile ./dist/term-serve-darwin-arm64",
+    "build:win": "bun build ./src/cli.ts --compile --target=bun-windows-x64 --outfile ./dist/term-serve-windows-x64"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.11",
+    "@types/bun": "^1.3.6",
+    "@types/node": "^25.0.9",
+    "@typescript/native-preview": "7.0.0-dev.20260119.1"
+  },
+  "dependencies": {
+    "bun-pty": "^0.4.8",
+    "ghostty-web": "0.4.0-next.7.g03ead6e"
+  },
+  "patchedDependencies": {
+    "ghostty-web@0.4.0-next.7.g03ead6e": "patches/ghostty-web@0.4.0-next.7.g03ead6e.patch"
+  }
+}
