@@ -1,0 +1,67 @@
+---
+title: Configuration File
+description: Configure term-serve with repeatable project-local settings.
+---
+
+`term-serve` supports `TOML` configuration through `term-serve.conf` or an explicit `--config` path.
+
+## Discovery order
+
+1. `--config <path>`
+2. `./term-serve.conf` in the invocation directory
+
+## Precedence
+
+`defaults < config file < PORT env var < CLI flags`
+
+Only `PORT` is read from the environment.
+
+## Full config example
+
+```toml
+[server]
+port = 31337
+host = "127.0.0.1"
+
+[auth]
+# auth_token = "replace-me"
+
+[shell]
+# cwd = "/tmp"
+
+[terminal]
+theme = "gruvware-dark"
+font = "TermServe Mono"
+font_size = [11, 8]
+
+[logging]
+verbose = false
+
+[command]
+# argv = ["htop", "-d", "10"]
+```
+
+## Minimal top-level config
+
+Only these flat keys are allowed at top level:
+
+```toml
+host = "100.64.12.31"
+port = 3001
+auth_token = "my-project-token"
+```
+
+## Font size format
+
+- CLI: `--font-size 12` or `--font-size 14,10`
+- Config: `font_size = 12` or `font_size = [14, 10]`
+
+The two-value form means `[desktop, mobile]`.
+
+## Host/public behavior
+
+- `--public` is an alias for `--host 0.0.0.0`.
+- `host` and `public` are mutually exclusive intent.
+- In config, `server.public = true` sets host to `0.0.0.0`.
+
+For exact key/value expectations, see [Config Schema](../reference/config-reference/).

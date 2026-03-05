@@ -1,0 +1,63 @@
+---
+title: Themes and Fonts
+description: Tune terminal visuals with built-in themes and font controls.
+---
+
+export const themePreviews = Object.entries(
+	import.meta.glob('../../assets/screenshots/themes/*.png', {
+		eager: true,
+		import: 'default',
+	}),
+)
+	.map(([path, src]) => {
+		const fileName = path.split('/').pop() ?? '';
+		const id = fileName.replace(/\.png$/, '');
+		const imageSrc = typeof src === 'string' ? src : src?.src;
+		return {
+			id,
+			src: imageSrc,
+		};
+	})
+	.filter((theme) => Boolean(theme.src))
+	.sort((a, b) => a.id.localeCompare(b.id));
+
+## Select a terminal theme
+
+```bash
+term-serve --theme gruvware-dark
+term-serve --theme tokyo-night
+```
+
+List available theme IDs:
+
+```bash
+term-serve --list-themes
+```
+
+Use `--theme none` to fallback to terminal defaults.
+
+## Font selection
+
+- Default bundled font: `TermServe Mono` (patched JetBrains Mono Nerd Font)
+- Override with system fonts via `--font`
+- Add per-device sizing with `--font-size`
+
+Examples:
+
+```bash
+term-serve --font "Iosevka" --font-size 12
+term-serve --font "Fira Code" --font-size 14,10
+```
+
+## Theme previews
+
+<div class="ts-theme-grid ts-theme-grid-all">
+	{
+		themePreviews.map((theme) => (
+			<figure class="ts-frame ts-theme-card">
+				<img src={theme.src} alt={`${theme.id} theme screenshot`} loading="lazy" />
+				<figcaption>{theme.id}</figcaption>
+			</figure>
+		))
+	}
+</div>

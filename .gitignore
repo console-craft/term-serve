@@ -44,3 +44,12 @@ Thumbs.db
 .parcel-cache/
 .eslintcache
 
+# Astro / Starlight
+.astro/
+.astro-cache/
+docs-site/.astro/
+docs-site/.astro-cache/
+
+# Playwright
+.playwright-cli/
+

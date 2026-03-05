@@ -1,0 +1,66 @@
+---
+title: term-serve
+description: Browser-first terminal access for local and remote workflows.
+template: splash
+hero:
+  tagline: Serve a real shell in your browser, keep latency low, and stay in control.
+  image:
+    file: ../../assets/screenshots/landing-page/desktop.png
+  actions:
+    - text: Quick Start
+      link: ./getting-started/
+      icon: right-arrow
+    - text: Config Reference
+      link: ./reference/config-reference/
+      icon: list-format
+    - text: GitHub
+      link: https://github.com/console-craft/term-serve
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import desktopShot from '../../assets/screenshots/landing-page/desktop.png';
+import mobileShot from '../../assets/screenshots/landing-page/mobile-portrait.png';
+
+## Built for practical terminal work
+
+<CardGrid stagger>
+	<Card title="Real shell sessions" icon="terminal-window">
+		Starts an interactive PTY (bash, zsh, fish, etc.) and streams it over WebSocket.
+	</Card>
+	<Card title="Secure by default" icon="shield-check">
+		Binds to `127.0.0.1` by default and auto-enables token auth when exposed beyond localhost.
+	</Card>
+	<Card title="Command mode" icon="seti:terminal">
+		Serve one command on connect (`htop`, `btop`, `opencode`, custom scripts) instead of a login shell.
+	</Card>
+	<Card title="Mobile-capable UI" icon="seti:mobile">
+		Includes touch toolbar keys, sticky Ctrl/Alt, and copy mode tuned for scrollback.
+	</Card>
+	<Card title="Themes and fonts" icon="paintbrush">
+		Ships with many terminal themes and configurable font + desktop/mobile font size controls.
+	</Card>
+	<Card title="Proxy friendly" icon="networking">
+		Works behind Caddy, nginx, ngrok, and other reverse proxies via forwarded headers.
+	</Card>
+</CardGrid>
+
+## Interface preview
+
+<div class="ts-interface-showcase">
+	<figure class="ts-frame ts-interface-desktop">
+		<img src={desktopShot.src} alt="term-serve desktop session screenshot" loading="lazy" />
+		<figcaption>Desktop session with keyboard-first terminal workflows.</figcaption>
+	</figure>
+	<figure class="ts-frame ts-interface-mobile">
+		<img src={mobileShot.src} alt="term-serve mobile session screenshot" loading="lazy" />
+		<figcaption>Mobile portrait session with touch toolbar and shell output.</figcaption>
+	</figure>
+</div>
+
+## Where to go next
+
+- Start with [Getting Started](./getting-started/) for launch patterns and common commands.
+- Use [Configuration File](./configuration/) for project-local settings and reproducible setups.
+- Review [Security and Networking](./security/) before exposing `term-serve` outside localhost.

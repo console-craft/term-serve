@@ -1,0 +1,47 @@
+---
+title: Security and Networking
+description: Safely expose term-serve beyond localhost.
+---
+
+## Security model
+
+`term-serve` provides shell access. Treat access as machine-level control.
+
+- Local default bind: `127.0.0.1`
+- Non-local bind (`--public` or `--host`): token-gated WebSocket access
+
+## Auth token behavior
+
+When not on localhost, term-serve expects a shared secret token for `/ws`:
+
+- Provide one via `--auth-token <secret>`
+- Or let term-serve generate one at startup
+
+The token is sent as a WebSocket query parameter. If you use a tunnel or reverse proxy, avoid logging query strings.
+
+## Hardening checklist
+
+- Keep localhost-only whenever possible.
+- If exposed, set a strong explicit `--auth-token`.
+- Use HTTPS/WSS at the edge.
+- Put the service behind a perimeter (VPN, SSH tunnel, or access-controlled proxy).
+- Redact query parameters from access logs.
+
+## Practical launch examples
+
+```bash
+# Local-only (default)
+term-serve
+
+# LAN with explicit token
+term-serve --host 0.0.0.0 --auth-token "replace-with-strong-secret"
+
+# Same intent via alias
+term-serve --public --auth-token "replace-with-strong-secret"
+```
+
+## Reverse proxy notes
+
+term-serve is compatible with Caddy/nginx-style reverse proxies through `X-Forwarded-*` headers.
+
+If your proxy logs request URIs, configure redaction for the `token` query parameter.

@@ -1,0 +1,51 @@
+---
+title: Usage Patterns
+description: Productive terminal usage on desktop and mobile browsers.
+---
+
+import mobileShot from '../../assets/screenshots/landing-page/mobile-portrait.png';
+
+## Shell mode vs command mode
+
+- **Shell mode (default):** opens a normal interactive shell (`bash`, `zsh`, etc.).
+- **Command mode:** starts one command when a browser client connects.
+
+Use command mode for dashboards and focused UIs:
+
+```bash
+term-serve btop
+term-serve htop -d 5
+term-serve --cwd ~/projects term-serve --help
+```
+
+## Keyboard flow
+
+The browser UI is optimized for terminal-first input:
+
+- Keymaps palette for quickly sending common key sequences.
+- Desktop key handling that maps cleanly to PTY input.
+- Resize handling to keep columns/rows in sync with viewport changes.
+
+## Mobile flow
+
+Mobile gets an on-screen toolbar for terminal controls that are hard to reach on touch keyboards:
+
+- Esc / Tab / arrow keys
+- Sticky Ctrl and Alt modifiers
+- Touch-friendly interactions that keep focus on the terminal
+
+<figure class="ts-frame">
+	<img src={mobileShot.src} alt="Mobile portrait usage of term-serve" loading="lazy" />
+	<figcaption>Mobile toolbar and shell output in portrait mode.</figcaption>
+</figure>
+
+## Copy and paste behavior
+
+term-serve includes built-in clipboard flows and fallbacks:
+
+- Regular clipboard read/write where browser permissions allow it.
+- Mobile copy mode with selection handles and one-tap copy for scrollback-heavy output.
+
+## Exit safety
+
+By default, the client warns on likely accidental shell exits (`Ctrl+D`, `exit`, `logout`) to reduce tab-close or command muscle-memory mistakes.

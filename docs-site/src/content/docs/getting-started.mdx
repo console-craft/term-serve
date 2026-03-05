@@ -1,0 +1,64 @@
+---
+title: Getting Started
+description: Launch term-serve quickly and choose the right runtime mode.
+---
+
+import desktopShot from '../../assets/screenshots/landing-page/desktop.png';
+
+`term-serve` exposes a real local terminal session in your browser. By default it stays local-only and opens a shell.
+
+## Launch in shell mode
+
+```bash
+# Run from this repository
+bun run src/bin/term-serve.ts
+
+# If installed as a binary
+term-serve
+```
+
+Then open `http://127.0.0.1:31337/`.
+
+<figure class="ts-frame">
+	<img src={desktopShot.src} alt="Desktop shell session in term-serve" loading="lazy" />
+	<figcaption>Default desktop shell session.</figcaption>
+</figure>
+
+## Run a command instead of a login shell
+
+Everything after the command name is passed through unchanged to the PTY process:
+
+```bash
+term-serve htop -d 10
+term-serve btop
+term-serve opencode
+```
+
+Use `--` when you need to separate term-serve options from command arguments:
+
+```bash
+term-serve --port 4141 -- rg --hidden TODO src
+```
+
+## Start in a specific directory
+
+```bash
+term-serve --cwd ~/projects
+```
+
+## Share on LAN (with token auth)
+
+```bash
+term-serve --public
+```
+
+When binding non-locally, term-serve requires an auth token for WebSocket terminal access:
+
+- Provide one explicitly with `--auth-token <secret>`.
+- Or let term-serve generate one at startup and print it once.
+
+## Next steps
+
+- Use [Usage Patterns](../usage/) for daily shell workflows on desktop/mobile.
+- Use [Configuration File](../configuration/) for repeatable team or project setups.
+- Read [Security and Networking](../security/) before exposing the service beyond localhost.
