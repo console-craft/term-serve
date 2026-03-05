@@ -2,6 +2,8 @@
 
 Serve a local terminal in the browser (WebSocket + PTY).
 
+[https://console-craft.com/term-serve](https://console-craft.com/term-serve)
+
 ## Features
 
 - 🌐 Starts an HTTP server on port 31337 (configurable via `PORT` env var or `-p/--port`) and host `127.0.0.1` (configurable via `--host`, or `--public` as an alias for `0.0.0.0`).
