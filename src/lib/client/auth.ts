@@ -6,6 +6,24 @@ const AUTH_TOKEN_STORAGE_KEY = "term-serve.authToken"
 let inMemoryAuthToken: string | undefined
 
 /**
+ * Retrieves the auth token from the URL query string (e.g. `?token=...` from a QR code scan).
+ *
+ * If a token is found, it is removed from the URL to avoid leaking it in the address bar or browser history.
+ *
+ * @return {string | undefined} The token from the URL, or `undefined` if not present.
+ */
+function getAuthTokenFromUrl(): string | undefined {
+  const token = new URLSearchParams(window.location.search).get("token")
+  if (!token) return undefined
+
+  const cleanUrl = new URL(window.location.href)
+  cleanUrl.searchParams.delete("token")
+  window.history.replaceState({}, "", cleanUrl.toString())
+
+  return token
+}
+
+/**
  * Retrieves the stored auth token from memory or session storage.
  *
  * @return {string | undefined} The stored auth token, or `undefined` if not found.
@@ -106,7 +124,7 @@ export async function getAuthTokenIfRequired(): Promise<string | undefined> {
 
   if (!config.authRequired) return undefined
 
-  const existingToken = getStoredAuthToken()
+  const existingToken = getAuthTokenFromUrl() ?? getStoredAuthToken()
 
   if (existingToken) {
     const [verificationError] = await verifyAuthToken(existingToken)
