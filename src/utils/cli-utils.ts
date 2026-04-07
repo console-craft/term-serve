@@ -1,5 +1,6 @@
 import { statSync } from "node:fs"
 import { resolve } from "node:path"
+import QRCode from "qrcode-terminal"
 import { discoverConfigPath, loadConfigFile } from "@/config-file"
 import { DEFAULT_TERMINAL_THEME_ID, TERMINAL_THEME_IDS } from "@/lib/client/terminal-themes"
 import { getAuthToken } from "@/lib/server/auth"
@@ -268,4 +269,23 @@ export function printAuthToken(runtimeOpts: RuntimeOpts, serverOpts: ServerOpts)
       `\n${serverOpts.isGeneratedAuthToken ? "Generated" : "Configured"} auth token (enter this in the client UI): ${serverOpts.authToken}\n`,
     )
   }
+}
+
+/**
+ * Prints a QR code to the terminal for easy mobile access, encoding the server URL with the auth token as a query parameter.
+ *
+ * Only prints in interactive TTY environments when an auth token is provided.
+ *
+ * @param {string} serverUrl The base server URL.
+ * @param {string} [authToken] The auth token to embed in the QR code URL.
+ * @return {void}
+ */
+export function printQRCode(serverUrl: string, authToken?: string): void {
+  if (!authToken || !process.stdout.isTTY) return
+
+  const url = new URL(serverUrl)
+  url.searchParams.set("token", authToken)
+  QRCode.generate(url.toString(), { small: true }, (qr) => {
+    console.log(`Scan to connect:\n\n${qr}`)
+  })
 }

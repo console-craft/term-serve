@@ -7,3 +7,8 @@ declare module "*.woff2" {
   const path: string
   export default path
 }
+
+declare module "qrcode-terminal" {
+  function generate(text: string, opts?: { small?: boolean }, cb?: (qr: string) => void): void
+  export { generate }
+}

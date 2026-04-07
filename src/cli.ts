@@ -2,7 +2,7 @@ import { basename } from "node:path"
 import { startServer } from "./lib/server/http"
 import { createLogger } from "./lib/server/logger"
 import { parseArgs } from "./parse-args"
-import { getRuntimeOpts, getServerOpts, printAuthToken, printedUsageMessage, printUsageError } from "./utils/cli-utils"
+import { getRuntimeOpts, getServerOpts, printAuthToken, printQRCode, printedUsageMessage, printUsageError } from "./utils/cli-utils"
 
 /**
  * Runs the program with the given arguments.
@@ -68,6 +68,7 @@ export async function main(argv: string[] = Bun.argv): Promise<void> {
   console.log(`\nListening on ${server.url.toString()}`)
 
   printAuthToken(runtimeOpts, serverOpts)
+  printQRCode(server.url.toString(), serverOpts.authToken)
 
   log.info("listen", {
     host: serverOpts.host,
