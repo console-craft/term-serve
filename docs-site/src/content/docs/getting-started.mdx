@@ -7,17 +7,28 @@ import desktopShot from '../../assets/screenshots/landing-page/desktop.png';
 
 `term-serve` exposes a real local terminal session in your browser. By default it stays local-only and opens a shell.
 
+## Install or run directly
+
+```bash
+# Run without installing
+bunx @console-craft/term-serve
+
+# Or install globally
+npm i -g @console-craft/term-serve
+term-serve
+```
+
+`term-serve` is a Bun-native CLI, so Bun must be installed and available on `PATH`.
+
 ## Launch in shell mode
 
 ```bash
-# Run from this repository
-bun run src/bin/term-serve.ts
-
-# If installed as a binary
 term-serve
 ```
 
 Then open `http://127.0.0.1:31337/`.
+
+Startup output includes an access URL. When the URL is usable from another device (for example with `--public` or `--tunnel`), interactive terminals also print a QR code you can scan from your phone.
 
 <figure class="ts-frame">
 	<img src={desktopShot.src} alt="Desktop shell session in term-serve" loading="lazy" />
@@ -56,6 +67,24 @@ When binding non-locally, term-serve requires an auth token for WebSocket termin
 
 - Provide one explicitly with `--auth-token <secret>`.
 - Or let term-serve generate one at startup and print it once.
+
+In interactive terminals, `--public` resolves a LAN URL and prints a QR code for quick phone access.
+
+## Open a Cloudflare quick tunnel
+
+If `cloudflared` is installed on your system, `--tunnel` starts a temporary public HTTPS tunnel to the local server:
+
+```bash
+term-serve --tunnel
+```
+
+Tunnel mode always requires auth. In an interactive terminal, term-serve can generate and print a token. In non-interactive environments, pass an explicit token:
+
+```bash
+term-serve --tunnel --auth-token "replace-with-strong-secret"
+```
+
+The resolved `https://*.trycloudflare.com` URL is printed at startup, with a QR code when stdout is interactive.
 
 ## Next steps
 

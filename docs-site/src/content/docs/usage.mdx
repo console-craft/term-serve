@@ -39,6 +39,17 @@ Mobile gets an on-screen toolbar for terminal controls that are hard to reach on
 	<figcaption>Mobile toolbar and shell output in portrait mode.</figcaption>
 </figure>
 
+## QR code startup access
+
+When term-serve resolves a browser URL that is useful from another device, it prints the URL and a QR code in interactive terminals.
+
+Common cases:
+
+- `term-serve --public` prints a LAN URL such as `http://192.168.1.40:31337/`.
+- `term-serve --tunnel` prints the Cloudflare quick tunnel URL.
+
+Local-only starts remain local-only; a QR code for `127.0.0.1` is not useful from a phone unless the phone is the same machine.
+
 ## Copy and paste behavior
 
 term-serve includes built-in clipboard flows and fallbacks:

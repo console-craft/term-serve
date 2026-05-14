@@ -14,6 +14,7 @@ Only these flat keys are valid:
 | `host` | string | Bind address |
 | `port` | number | Listening port |
 | `auth_token` | string | Shared WebSocket auth token |
+| `tunnel` | boolean | Start a Cloudflare quick tunnel |
 
 ## Sections
 
@@ -24,6 +25,7 @@ Only these flat keys are valid:
 | `port` | number | Same meaning as top-level `port` |
 | `host` | string | Same meaning as top-level `host` |
 | `public` | boolean | `true` maps to host `0.0.0.0` |
+| `tunnel` | boolean | Start a Cloudflare quick tunnel |
 
 ### `[auth]`
 

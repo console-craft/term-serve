@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config"
 
 const REPO_NAME = "term-serve"
 const isGitHubActions = process.env.GITHUB_ACTIONS === "true"
+const basePath = isGitHubActions ? `/${REPO_NAME}` : ""
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,6 +21,7 @@ export default defineConfig({
         baseUrl: "https://github.com/console-craft/term-serve/edit/main/docs-site/",
       },
       head: [
+        { tag: "link", attrs: { rel: "icon", type: "image/png", href: `${basePath}/favicon.png` } },
         { tag: "link", attrs: { rel: "preconnect", href: "https://fonts.googleapis.com" } },
         {
           tag: "link",

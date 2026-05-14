@@ -64,6 +64,23 @@ Notes:
 
 If you expose this beyond localhost, you should still put it behind a strong perimeter (VPN like [Tailscale](https://tailscale.com), SSH tunnel, or an access-controlled tunnel such as Cloudflare Access/ngrok), and use TLS.
 
+## Installation
+
+Run directly with Bun:
+
+```shell
+bunx @console-craft/term-serve
+```
+
+Or install globally:
+
+```shell
+npm i -g @console-craft/term-serve
+term-serve
+```
+
+`term-serve` is a Bun-native CLI, so Bun must be installed and available on `PATH`.
+
 ## Usage
 
 ```shell

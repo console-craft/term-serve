@@ -9,15 +9,18 @@ description: Safely expose term-serve beyond localhost.
 
 - Local default bind: `127.0.0.1`
 - Non-local bind (`--public` or `--host`): token-gated WebSocket access
+- Cloudflare tunnel (`--tunnel`): token-gated WebSocket access through a public HTTPS quick tunnel
 
 ## Auth token behavior
 
-When not on localhost, term-serve expects a shared secret token for `/ws`:
+When not on localhost, or when using `--tunnel`, term-serve expects a shared secret token for `/ws`:
 
 - Provide one via `--auth-token <secret>`
 - Or let term-serve generate one at startup
 
 The token is sent as a WebSocket query parameter. If you use a tunnel or reverse proxy, avoid logging query strings.
+
+`--tunnel` still starts the local HTTP server first, but the `cloudflared` process exposes it through a public `https://*.trycloudflare.com` URL. Treat that URL as public and rely on the auth token to protect the PTY WebSocket.
 
 ## Hardening checklist
 
@@ -38,7 +41,14 @@ term-serve --host 0.0.0.0 --auth-token "replace-with-strong-secret"
 
 # Same intent via alias
 term-serve --public --auth-token "replace-with-strong-secret"
+
+# Temporary public HTTPS tunnel with cloudflared
+term-serve --tunnel --auth-token "replace-with-strong-secret"
 ```
+
+## QR code notes
+
+Startup QR codes are access helpers, not authentication. Anyone who can reach the URL still needs the auth token for terminal WebSocket access when auth is enabled.
 
 ## Reverse proxy notes
 

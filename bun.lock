@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "term-serve",
+      "name": "@console-craft/term-serve",
       "dependencies": {
         "bun-pty": "^0.4.8",
         "ghostty-web": "0.4.0-next.7.g03ead6e",

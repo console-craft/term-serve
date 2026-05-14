@@ -16,8 +16,9 @@ Options must appear before positional `command`.
 | Flag | Meaning |
 | --- | --- |
 | `-p, --port <port>` | Port to listen on (default `31337`) |
-| `--host <ip|name>` | Bind address (default `127.0.0.1`) |
+| `--host <ip\|name>` | Bind address (default `127.0.0.1`) |
 | `--public` | Alias for `--host 0.0.0.0` |
+| `--tunnel` | Start a Cloudflare quick tunnel with `cloudflared` and print the tunnel URL/QR code |
 | `--auth-token <secret>` | Require token for WebSocket connections |
 | `-C, --cwd <path>` | Start shell/command in this directory |
 | `--config <path>` | Load config from explicit file path |
@@ -43,3 +44,14 @@ Use `--` to avoid parsing command args as term-serve options:
 ```bash
 term-serve --port 4141 -- rg --hidden TODO src
 ```
+
+## Tunnel mode
+
+`--tunnel` requires `cloudflared` to be installed and available on `PATH`.
+
+```bash
+term-serve --tunnel
+term-serve --tunnel --auth-token "replace-with-strong-secret"
+```
+
+Tunnel mode exposes the local server through a temporary `https://*.trycloudflare.com` URL and requires auth for WebSocket terminal access.
