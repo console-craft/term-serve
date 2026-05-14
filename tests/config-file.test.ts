@@ -7,6 +7,7 @@ import { parseConfigObject } from "@/lib/server/config-file-parser"
 import * as httpModule from "@/lib/server/http"
 import { DEFAULT_SERVER_OPTS } from "@/lib/server/http"
 import * as loggerModule from "@/lib/server/logger"
+import * as tunnelModule from "@/utils/cloudflared-tunnel"
 
 type MockPtyCommand = {
   file: string
@@ -36,6 +37,7 @@ type WithImplementationSpy = {
 
 const tempDirs: string[] = []
 const startServerCalls: StartServerCall[] = []
+const startTunnelCalls: string[] = []
 
 const { main } = await import("@/cli")
 
@@ -122,8 +124,10 @@ async function runMain(args: string[], cwd: string, envPort?: string): Promise<R
 
   const startServerSpy = spyOn(httpModule, "startServer")
   const createLoggerSpy = spyOn(loggerModule, "createLogger")
+  const startCloudflaredTunnelSpy = spyOn(tunnelModule, "startCloudflaredTunnel")
   const startServerSpyWithImpl = startServerSpy as unknown as WithImplementationSpy
   const createLoggerSpyWithImpl = createLoggerSpy as unknown as WithImplementationSpy
+  const startCloudflaredTunnelSpyWithImpl = startCloudflaredTunnelSpy as unknown as WithImplementationSpy
 
   try {
     return await startServerSpyWithImpl.withImplementation(
@@ -163,12 +167,28 @@ async function runMain(args: string[], cwd: string, envPort?: string): Promise<R
             }
           },
           async () => {
-            await main(["bun", "term-serve", ...args])
-            return {
-              stdout: stdoutLines.join("\n"),
-              stderr: stderrLines.join("\n"),
-              exitCode: typeof process.exitCode === "number" ? process.exitCode : undefined,
-            }
+            return await startCloudflaredTunnelSpyWithImpl.withImplementation(
+              (targetUrl: unknown) => {
+                startTunnelCalls.push(String(targetUrl))
+
+                return [
+                  null,
+                  {
+                    url: "https://test-tunnel.trycloudflare.com",
+                    exited: new Promise<number | null>(() => {}),
+                    stop() {},
+                  },
+                ] as const
+              },
+              async () => {
+                await main(["bun", "term-serve", ...args])
+                return {
+                  stdout: stdoutLines.join("\n"),
+                  stderr: stderrLines.join("\n"),
+                  exitCode: typeof process.exitCode === "number" ? process.exitCode : undefined,
+                }
+              },
+            )
           },
         )
       },
@@ -186,11 +206,13 @@ async function runMain(args: string[], cwd: string, envPort?: string): Promise<R
 
     startServerSpy.mockRestore()
     createLoggerSpy.mockRestore()
+    startCloudflaredTunnelSpy.mockRestore()
   }
 }
 
 beforeEach(() => {
   startServerCalls.length = 0
+  startTunnelCalls.length = 0
 })
 
 afterEach(async () => {
@@ -288,6 +310,17 @@ argv = ["htop", "-d", "10"]
     expect(call?.ptyCommand).toEqual({ file: "btop", args: ["--utf-force"] })
   })
 
+  test("CLI --tunnel starts cloudflared and prints the tunnel URL", async () => {
+    const cwd = await createTempDir()
+
+    const result = await runMain(["--tunnel", "--auth-token", "secret"], cwd)
+
+    expect(result.exitCode).toBeUndefined()
+    expect(startServerCalls).toHaveLength(1)
+    expect(startTunnelCalls).toEqual(["http://127.0.0.1:31337/"])
+    expect(result.stdout).toContain("Resolved URL: https://test-tunnel.trycloudflare.com")
+  })
+
   test("help skips config discovery/loading", async () => {
     const cwd = await createTempDir()
     await writeLocalConfig(cwd, "foo = 1")
@@ -355,6 +388,7 @@ describe("config file parsing", () => {
 [server]
 port = 4242
 public = true
+tunnel = true
 
 [auth]
 auth_token = "secret-token"
@@ -379,6 +413,7 @@ argv = ["htop", "-d", "10"]
       port: 4242,
       public: true,
       host: "0.0.0.0",
+      tunnel: true,
       authToken: "secret-token",
       cwd: "/tmp",
       terminalTheme: "tokyo-night",
@@ -395,6 +430,7 @@ argv = ["htop", "-d", "10"]
 host = "127.0.0.1"
 port = 31337
 auth_token = "abc123"
+tunnel = true
 `)
 
     expect(error).toBeNull()
@@ -402,6 +438,7 @@ auth_token = "abc123"
       host: "127.0.0.1",
       port: 31337,
       authToken: "abc123",
+      tunnel: true,
     })
   })
 
@@ -445,6 +482,10 @@ font_size = 12
     const [authTokenError, authTokenOpts] = parseTomlConfig('auth_token = "a"\n[auth]\nauth_token = "b"')
     expect(authTokenOpts).toBeNull()
     expect(authTokenError?.message).toContain('Duplicate key representation for "auth_token"')
+
+    const [tunnelError, tunnelOpts] = parseTomlConfig("tunnel = true\n[server]\ntunnel = false")
+    expect(tunnelOpts).toBeNull()
+    expect(tunnelError?.message).toContain('Duplicate key representation for "tunnel"')
   })
 
   test("rejects host and public together", () => {
@@ -458,7 +499,9 @@ font_size = 12
       { toml: 'port = "nope"', message: "port must be a finite number" },
       { toml: 'host = ""', message: "host must be a non-empty string" },
       { toml: 'auth_token = ""', message: "auth_token must be a non-empty string" },
+      { toml: 'tunnel = "true"', message: "tunnel must be a boolean" },
       { toml: '[server]\npublic = "true"', message: "server.public must be a boolean" },
+      { toml: '[server]\ntunnel = "true"', message: "server.tunnel must be a boolean" },
       { toml: "[shell]\ncwd = 123", message: "shell.cwd must be a non-empty string" },
       { toml: '[terminal]\nfont = ""', message: "terminal.font must be a non-empty string" },
       {

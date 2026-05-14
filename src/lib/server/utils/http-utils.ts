@@ -65,6 +65,17 @@ export function isLocalBindHost(host: string): boolean {
 }
 
 /**
+ * Determines if the provided host string represents a wildcard bind address.
+ *
+ * @param {string} host The host string to check.
+ * @return {boolean} True if the host accepts connections on all interfaces.
+ */
+export function isWildcardBindHost(host: string): boolean {
+  const h = normalizeHost(host)
+  return h === "0.0.0.0" || h === "::"
+}
+
+/**
  * Extracts the Bearer token from the Authorization header of the request, if present.
  *
  * @param {Request} req The incoming HTTP request from which to extract the token.

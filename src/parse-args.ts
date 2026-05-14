@@ -151,6 +151,11 @@ export function parseArgs(args: string[]): Result<Partial<Opts>> {
       continue
     }
 
+    if (arg === "--tunnel") {
+      opts.tunnel = true
+      continue
+    }
+
     if (arg === "--auth-token") {
       const v = args[++i]
       if (!v) return [new Error("Missing value for --auth-token"), null]

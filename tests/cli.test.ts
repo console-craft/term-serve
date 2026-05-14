@@ -84,7 +84,17 @@ describe("term-serve CLI public API", () => {
     expect(res.exitCode).toBe(2)
     expect(res.stdout).not.toContain("Listening on")
     expect(res.stderr).toContain(
-      "You must explicitly provide an auth token when binding to a non-local host in a non-interactive environment.",
+      "You must explicitly provide an auth token when using --tunnel or binding to a non-local host in a non-interactive environment.",
+    )
+  })
+
+  test("non-interactive --tunnel requires explicit --auth-token", async () => {
+    const res = await runCli(["--tunnel"], { timeoutMs: 3_000 })
+
+    expect(res.exitCode).toBe(2)
+    expect(res.stdout).not.toContain("Listening on")
+    expect(res.stderr).toContain(
+      "You must explicitly provide an auth token when using --tunnel or binding to a non-local host in a non-interactive environment.",
     )
   })
 
@@ -280,6 +290,11 @@ describe("parseArgs contract", () => {
   test("accepts --verbose", () => {
     const [_err, opts] = parseArgs(["--verbose"])
     expect(opts!.verbose).toBe(true)
+  })
+
+  test("accepts --tunnel", () => {
+    const [_err, opts] = parseArgs(["--tunnel"])
+    expect(opts!.tunnel).toBe(true)
   })
 
   test("accepts -t/--theme and --theme=<value>", () => {

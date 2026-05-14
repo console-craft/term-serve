@@ -118,16 +118,16 @@ export async function getServerOpts(opts: RuntimeOpts): Promise<Result<ServerOpt
     ptyCommand = getPtyCommand(opts.commandToRun, opts.commandArgs)
   }
 
-  if (!process.stdout.isTTY && !isLocalBindHost(opts.host) && !opts.authToken) {
+  if (!process.stdout.isTTY && (opts.tunnel || !isLocalBindHost(opts.host)) && !opts.authToken) {
     return [
       new Error(
-        `You must explicitly provide an auth token when binding to a non-local host in a non-interactive environment.`,
+        `You must explicitly provide an auth token when using --tunnel or binding to a non-local host in a non-interactive environment.`,
       ),
       null,
     ]
   }
 
-  const { authToken, isGenerated } = getAuthToken(opts.authToken, opts.host)
+  const { authToken, isGenerated } = getAuthToken(opts.authToken, opts.host, opts.tunnel)
 
   return [
     null,
@@ -184,6 +184,7 @@ Options:
   -p, --port <port>                       Port to listen on, default: ${DEFAULT_SERVER_OPTS.port}
       --host <ip|name>                    Bind address, default: ${DEFAULT_SERVER_OPTS.host} (enables auth token by default if not localhost)
       --public                            Alias for --host 0.0.0.0 (enables auth token by default)
+      --tunnel                            Open a public Cloudflare tunnel with cloudflared (enables auth token by default)
       --auth-token <secret>               Require a token for WebSocket connections
   -C, --cwd <path>                        Start in the provided directory, default: current working directory
       --config <path>                     Load config from explicit file path. If not provided, the app tries to

@@ -25,16 +25,25 @@ ghostty-web + bun server: serve a local terminal in the browser (WebSocket + PTY
 - Patch file: `patches/ghostty-web@0.4.0-next.7.g03ead6e.patch`.
 - If `ghostty-web` is upgraded, re-check whether upstream includes the fix and remove or refresh the local patch accordingly.
 
+## Roadmap
+
+- Bundled AI agent (Pi) - completely turned off by default, use it if you like with your own API keys (`OpenRouter`, `OpenCode Zen`, etc.) or OAuth logins (`OpenAI` / `Github Copilot` / `Google Gemini`).
+- Electron based client app - manage multiple `term-serve` sessions, provide a richer UI (tabs, settings form, etc.), and integrate with the OS (native notifications, system-tray/dock, etc.).
+
 ## Repo Map
 
-- `src/cli.ts`: CLI entrypoint (parse args -> resolve runtime/server opts -> start server -> print URL/token/help output)
+- `src/cli.ts`: CLI entrypoint (parse args -> resolve runtime/server opts -> start server/tunnel -> print URL/token/QR/help output)
 - `src/bin/term-serve.ts`: shebang shim for running the CLI from source
 - `src/parse-args.ts`: CLI args parser into `Opts` (flags, positional command mode, and `--internal=...` support)
 - `src/resolve-opts.ts`: precedence resolver for defaults/config/env/CLI runtime options
 - `src/config-file.ts`: config discovery/loading helpers (`--config` or local `term-serve.conf`)
 - `src/utils/cli-utils.ts`: usage/version/theme-list output + runtime/server option assembly
+- `src/utils/cloudflared-process.ts`: low-level cloudflared process availability/stream helpers
+- `src/utils/cloudflared-tunnel.ts`: cloudflared quick tunnel startup and tunnel URL parsing helpers
 - `src/utils/parse-args-utils.ts`: internal command parser for `--internal=domain:subcommand`
 - `src/utils/safe-result.ts`: tuple-style error helpers (`Result`, `asResult`, `asAsyncResult`)
+- `src/utils/startup-output.ts`: startup access URL resolution and terminal QR code rendering
+- `src/utils/tunnel-lifecycle.ts`: optional tunnel startup/cleanup orchestration
 - `src/types/core.ts`: core shared CLI/runtime option types (`Opts`)
 - `src/types/utils.ts`: shared TypeScript utility types
 - `src/types/assets.d.ts`: TypeScript declarations for bundled wasm/font asset imports
@@ -47,7 +56,7 @@ ghostty-web + bun server: serve a local terminal in the browser (WebSocket + PTY
 - `src/lib/server/request-origin-resolver.ts`: best-effort client IP extraction from forwarded headers/requestIP
 - `src/lib/server/logger.ts`: structured logfmt logger + HTTP access logging helper
 - `src/lib/server/config-file-parser.ts`: TOML config object validation/parsing into `Opts`
-- `src/lib/server/utils/http-utils.ts`: HTTP helpers (ETag, If-None-Match matching, auth header parsing, local-host checks)
+- `src/lib/server/utils/http-utils.ts`: HTTP helpers (ETag, If-None-Match matching, auth header parsing, local/wildcard-host checks)
 - `src/lib/server/utils/logger-utils.ts`: log color helpers for levels/events/statuses
 - `src/lib/server/utils/websockets-open-handler.ts`: ws open lifecycle (spawn PTY, wire data/exit handlers)
 - `src/lib/server/utils/websockets-message-handler.ts`: ws message lifecycle (resize protocol + keystroke forwarding)
@@ -80,6 +89,8 @@ ghostty-web + bun server: serve a local terminal in the browser (WebSocket + PTY
 - `src/lib/client/ansi.ts`: ANSI/control sequence helpers for banner/MOTD/messages and shared SGR wrappers
 - `src/lib/client/fonts/*`: bundled terminal fonts (woff2)
 - `tests/cli.test.ts`: CLI contract tests
+- `tests/auth.test.ts`: auth token generation and force-auth behavior tests
+- `tests/cloudflared-tunnel.test.ts`: cloudflared tunnel URL parsing and target URL tests
 - `tests/resolve-opts.test.ts`: runtime option precedence and bind/command intent resolution tests
 - `tests/config-file.test.ts`: config discovery/loading/parsing integration tests
 - `tests/server.test.ts`: HTTP routes and WebSocket upgrade behavior tests

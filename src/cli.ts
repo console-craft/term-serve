@@ -4,6 +4,7 @@ import { createLogger } from "./lib/server/logger"
 import { parseArgs } from "./parse-args"
 import { getRuntimeOpts, getServerOpts, printAuthToken, printedUsageMessage, printUsageError } from "./utils/cli-utils"
 import { printStartupAccess } from "./utils/startup-output"
+import { registerTunnelCleanup, startTunnelIfRequested } from "./utils/tunnel-lifecycle"
 
 /**
  * Runs the program with the given arguments.
@@ -66,10 +67,22 @@ export async function main(argv: string[] = Bun.argv): Promise<void> {
     return
   }
 
+  const [tunnelStartError, tunnel] = await startTunnelIfRequested(runtimeOpts, server, log)
+  if (tunnelStartError) {
+    log.error("cloudflared_start_failed", { err: tunnelStartError })
+    server.stop(true)
+    process.exitCode = 1
+    return
+  }
+
+  if (tunnel) {
+    registerTunnelCleanup(tunnel, server, log)
+  }
+
   console.log(`\nListening on ${server.url.toString()}\n`)
 
   printAuthToken(runtimeOpts, serverOpts)
-  printStartupAccess(server.url)
+  printStartupAccess(server.url, { resolvedUrl: tunnel ? new URL(tunnel.url) : undefined })
 
   log.info("listen", {
     host: serverOpts.host,

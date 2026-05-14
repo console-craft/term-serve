@@ -1,6 +1,6 @@
 import { type NetworkInterfaceInfo, networkInterfaces } from "node:os"
 import qrcodeTerminal from "qrcode-terminal"
-import { isLocalBindHost, normalizeHost } from "@/lib/server/utils/http-utils"
+import { isLocalBindHost, isWildcardBindHost } from "@/lib/server/utils/http-utils"
 
 /**
  * Renders a compact terminal QR code for a URL.
@@ -75,20 +75,14 @@ export function getLanAccessHost(interfaces: NetworkInterfaceMap = networkInterf
   return candidates[0]?.address
 }
 
-/**
- * Checks whether a bind host accepts connections on all interfaces.
- *
- * @param {string} host Hostname to inspect.
- * @returns {boolean} True when the host is a wildcard bind address.
- */
-function isWildcardBindHost(host: string): boolean {
-  const normalized = normalizeHost(host)
-  return normalized === "0.0.0.0" || normalized === "::"
-}
-
 export type StartupAccessUrl = {
   url: string
   shouldPrintResolvedUrl: boolean
+}
+
+type PrintStartupAccessOptions = {
+  interfaces?: NetworkInterfaceMap
+  resolvedUrl?: URL
 }
 
 /**
@@ -125,11 +119,13 @@ export function resolveStartupAccessUrl(
  * Prints startup URL and QR code information.
  *
  * @param {URL} serverUrl Bun server URL.
- * @param {NetworkInterfaceMap} interfaces Network interfaces to inspect for wildcard binds.
+ * @param {PrintStartupAccessOptions} options Startup output options.
  * @returns {void}
  */
-export function printStartupAccess(serverUrl: URL, interfaces: NetworkInterfaceMap = networkInterfaces()): void {
-  const access = resolveStartupAccessUrl(serverUrl, interfaces)
+export function printStartupAccess(serverUrl: URL, options: PrintStartupAccessOptions = {}): void {
+  const access = options.resolvedUrl
+    ? { url: options.resolvedUrl.toString(), shouldPrintResolvedUrl: true }
+    : resolveStartupAccessUrl(serverUrl, options.interfaces)
 
   if (access.shouldPrintResolvedUrl) {
     if (access.url !== serverUrl.toString()) {

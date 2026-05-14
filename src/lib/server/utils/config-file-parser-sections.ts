@@ -16,6 +16,7 @@ export type ParseState = {
   sawSectionHost: boolean
   sawSectionPort: boolean
   sawSectionAuthToken: boolean
+  sawSectionTunnel: boolean
   sawAnyHost: boolean
   sawAnyPublic: boolean
 }
@@ -40,7 +41,7 @@ export function parseServerSection(
     return [serverError, null]
   }
 
-  const [serverKeysError] = assertAllowedKeys(server, new Set(["port", "host", "public"]), origin, "server")
+  const [serverKeysError] = assertAllowedKeys(server, new Set(["port", "host", "public", "tunnel"]), origin, "server")
   if (serverKeysError) {
     return [serverKeysError, null]
   }
@@ -74,6 +75,15 @@ export function parseServerSection(
       opts.host = "0.0.0.0"
     }
     state.sawAnyPublic = true
+  }
+
+  if (Object.hasOwn(server, "tunnel")) {
+    const [tunnelError, tunnel] = parseBoolean(server.tunnel, origin, "server.tunnel")
+    if (tunnelError) {
+      return [tunnelError, null]
+    }
+    opts.tunnel = tunnel
+    state.sawSectionTunnel = true
   }
 
   return [null, undefined]

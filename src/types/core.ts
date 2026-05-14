@@ -2,6 +2,7 @@ import type { InternalCommand } from "@/utils/parse-args-utils"
 
 export type Opts = {
   public?: boolean
+  tunnel?: boolean
   verbose?: boolean
   showHelp?: boolean
   showVersion?: boolean

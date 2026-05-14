@@ -10,6 +10,8 @@ Serve a local terminal in the browser (WebSocket + PTY).
 - 🐚 Opens a real shell session (`bash`, `zsh`, etc.) by default.
 - ▶️ Can optionally take a command (and args) as positional arguments and run it in the PTY when a client connects (eg. `btop`, `htop -d 10`).
 - 🔐 Optional shared-secret auth token for WebSocket connections when binding non-locally (auto-generated if not provided).
+- 🌩️ Optional `cloudflared` quick tunnel via `--tunnel` for temporary public HTTPS access.
+- 📷 Startup QR code for quickly opening LAN/public/tunnel URLs on a phone.
 - ⌨️ Keymaps palette UI for quickly sending common key sequences.
 - 📱 Mobile-friendly UI with an on-screen toolbar (Esc/Tab/arrows + sticky Ctrl/Alt) for touch devices.
 - 📋 Mobile copy mode with scrollback-aware selection handles and one-tap copy.
@@ -47,7 +49,7 @@ Serve a local terminal in the browser (WebSocket + PTY).
 
 By default, it only binds to `127.0.0.1` (localhost), which keeps it local to your machine.
 
-If you bind to a non-local interface (eg. `--public` / `--host 0.0.0.0` / `--host <LAN IP>`), term-serve enables a minimal shared-secret auth token for WebSocket connections:
+If you bind to a non-local interface (eg. `--public` / `--host 0.0.0.0` / `--host <LAN IP>`) or use `--tunnel`, term-serve enables a minimal shared-secret auth token for WebSocket connections:
 
 - You can set it explicitly with `--auth-token <secret>`.
 - If you bind non-locally without `--auth-token`, term-serve generates a secure random token and prints it once at startup.
@@ -58,6 +60,7 @@ Notes:
 - This is intentionally minimal auth (single shared token; no accounts; no rate limiting). Anyone with the token has a live terminal session.
 - The token is sent to `/ws` as a WebSocket query parameter (`/ws?...&token=...`). If you use a reverse proxy/tunnel, ensure it does not log query strings, and prefer HTTPS/WSS.
 - HTTP routes like `/` remain publicly reachable on that bind address; the PTY session is gated by the WebSocket token.
+- `--tunnel` requires `cloudflared` to be installed and starts a Cloudflare quick tunnel to the local server.
 
 If you expose this beyond localhost, you should still put it behind a strong perimeter (VPN like [Tailscale](https://tailscale.com), SSH tunnel, or an access-controlled tunnel such as Cloudflare Access/ngrok), and use TLS.
 
@@ -79,6 +82,7 @@ Options:
   -p, --port <port>                       Port to listen on, default: 31337
       --host <ip|name>                    Bind address, default: 127.0.0.1 (enables auth token by default if not localhost)
       --public                            Alias for --host 0.0.0.0 (enables auth token by default)
+      --tunnel                            Open a public Cloudflare tunnel with cloudflared (enables auth token by default)
       --auth-token <secret>               Require a token for WebSocket connections
   -C, --cwd <path>                        Start in the provided directory, default: current working directory
       --config <path>                     Load config from explicit file path. If not provided, the app tries to
@@ -95,6 +99,7 @@ Options:
 Examples:
   PORT=8080 term-serve                    # Custom port set via environment variable
   term-serve --public                     # LAN access (prints an auth token)
+  term-serve --tunnel                     # Public HTTPS access through cloudflared (prints an auth token)
   term-serve htop -d 10                   # Serve system monitoring output locally via htop command with a 10 second delay
   term-serve --cwd ~/projects \
     --host 0.0.0.0 --auth-token secret \
@@ -135,6 +140,9 @@ port = 31337
 # Bind address (enables auth token by default if not localhost).
 host = "127.0.0.1"
 
+# Open a public Cloudflare tunnel with cloudflared.
+tunnel = false
+
 [auth]
 
 # Require a token for WebSocket connections. You might omit this for localhost, but always set it for 0.0.0.0.
@@ -167,12 +175,13 @@ verbose = false
 # argv = ["top", "-d", "10"]
 ```
 
-Minimal top-level example (only the `host`, `port` and `auth_token` keys subset is allowed top-level):
+Minimal top-level example (only the `host`, `port`, `tunnel` and `auth_token` keys subset is allowed top-level):
 
 ```toml
 host = "100.64.12.31"
 port = 3001
 auth_token = "my-project-token"
+tunnel = true
 ```
 
 ## Popular themes

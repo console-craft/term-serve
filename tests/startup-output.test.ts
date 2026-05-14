@@ -120,11 +120,25 @@ describe("startup output", () => {
 
     withStdoutIsTTY(false, () => {
       logs = captureConsoleLog(() => {
-        printStartupAccess(new URL("http://0.0.0.0:31337/"), interfaces)
+        printStartupAccess(new URL("http://0.0.0.0:31337/"), { interfaces })
       })
     })
 
     expect(logs).toEqual(["Resolved URL: http://192.168.1.40:31337/\n"])
+  })
+
+  test("prints explicit tunnel URL", () => {
+    let logs: string[] = []
+
+    withStdoutIsTTY(false, () => {
+      logs = captureConsoleLog(() => {
+        printStartupAccess(new URL("http://127.0.0.1:31337/"), {
+          resolvedUrl: new URL("https://test-tunnel.trycloudflare.com/"),
+        })
+      })
+    })
+
+    expect(logs).toEqual(["Resolved URL: https://test-tunnel.trycloudflare.com/\n"])
   })
 
   test("prints resolved URL with QR code when stdout is interactive", () => {
@@ -135,7 +149,7 @@ describe("startup output", () => {
 
     withStdoutIsTTY(true, () => {
       logs = captureConsoleLog(() => {
-        printStartupAccess(new URL("http://0.0.0.0:31337/"), interfaces)
+        printStartupAccess(new URL("http://0.0.0.0:31337/"), { interfaces })
       })
     })
 

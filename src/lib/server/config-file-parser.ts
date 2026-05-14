@@ -9,7 +9,14 @@ import {
   parseShellSection,
   parseTerminalSection,
 } from "./utils/config-file-parser-sections"
-import { asRecord, fail, isRecord, parseFiniteNumber, parseNonEmptyString } from "./utils/config-file-parser-utils"
+import {
+  asRecord,
+  fail,
+  isRecord,
+  parseBoolean,
+  parseFiniteNumber,
+  parseNonEmptyString,
+} from "./utils/config-file-parser-utils"
 
 /**
  * Parses one supported top-level section table.
@@ -71,6 +78,7 @@ export function parseConfigObject(obj: unknown, origin: string): Result<Partial<
     sawSectionHost: false,
     sawSectionPort: false,
     sawSectionAuthToken: false,
+    sawSectionTunnel: false,
     sawAnyHost: false,
     sawAnyPublic: false,
   }
@@ -78,6 +86,7 @@ export function parseConfigObject(obj: unknown, origin: string): Result<Partial<
   let sawFlatHost = false
   let sawFlatPort = false
   let sawFlatAuthToken = false
+  let sawFlatTunnel = false
 
   for (const [key, rawValue] of Object.entries(root)) {
     if (key === "host") {
@@ -111,6 +120,16 @@ export function parseConfigObject(obj: unknown, origin: string): Result<Partial<
       continue
     }
 
+    if (key === "tunnel") {
+      const [tunnelError, tunnel] = parseBoolean(rawValue, origin, "tunnel")
+      if (tunnelError) {
+        return [tunnelError, null]
+      }
+      opts.tunnel = tunnel
+      sawFlatTunnel = true
+      continue
+    }
+
     if (!TOP_LEVEL_TABLES.has(key)) {
       if (isRecord(rawValue)) {
         return [fail(origin, `Unknown top-level section: [${key}]`), null]
@@ -138,6 +157,13 @@ export function parseConfigObject(obj: unknown, origin: string): Result<Partial<
         origin,
         'Duplicate key representation for "auth_token": use either top-level "auth_token" or [auth].auth_token',
       ),
+      null,
+    ]
+  }
+
+  if (sawFlatTunnel && state.sawSectionTunnel) {
+    return [
+      fail(origin, 'Duplicate key representation for "tunnel": use either top-level "tunnel" or [server].tunnel'),
       null,
     ]
   }

@@ -1,6 +1,6 @@
 {
   "name": "term-serve",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Serve a local terminal in the browser (WebSocket + PTY).",
   "keywords": [
     "terminal",
