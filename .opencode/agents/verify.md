@@ -1,7 +1,7 @@
 ---
 description: Runs repo quality checks and fixes format/lint/type/test/build issues with minimal diffs. Keeps noisy logs out of the main agent context.
 mode: subagent
-model: openai/gpt-5.2
+model: openai/gpt-5.5
 reasoningEffort: low
 temperature: 0.1
 tools:

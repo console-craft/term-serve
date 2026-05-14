@@ -3,6 +3,7 @@ import { startServer } from "./lib/server/http"
 import { createLogger } from "./lib/server/logger"
 import { parseArgs } from "./parse-args"
 import { getRuntimeOpts, getServerOpts, printAuthToken, printedUsageMessage, printUsageError } from "./utils/cli-utils"
+import { printStartupAccess } from "./utils/startup-output"
 
 /**
  * Runs the program with the given arguments.
@@ -65,9 +66,10 @@ export async function main(argv: string[] = Bun.argv): Promise<void> {
     return
   }
 
-  console.log(`\nListening on ${server.url.toString()}`)
+  console.log(`\nListening on ${server.url.toString()}\n`)
 
   printAuthToken(runtimeOpts, serverOpts)
+  printStartupAccess(server.url)
 
   log.info("listen", {
     host: serverOpts.host,

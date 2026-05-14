@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "bun-pty": "^0.4.8",
-    "ghostty-web": "0.4.0-next.7.g03ead6e"
+    "ghostty-web": "0.4.0-next.7.g03ead6e",
+    "qrcode-terminal": "^0.12.0"
   },
   "patchedDependencies": {
     "ghostty-web@0.4.0-next.7.g03ead6e": "patches/ghostty-web@0.4.0-next.7.g03ead6e.patch"

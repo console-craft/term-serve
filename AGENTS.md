@@ -18,7 +18,6 @@ ghostty-web + bun server: serve a local terminal in the browser (WebSocket + PTY
 
 - Before marking work as complete:
   - if code files or project config files were added or changed run the `/verify` command
-  - if any type of file was added or changed run the `/diffs` command
 
 ## Dependency Notes
 

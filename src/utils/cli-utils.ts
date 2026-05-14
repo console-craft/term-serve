@@ -257,7 +257,7 @@ export function printUsageError(scriptName: string, err: unknown): void {
 export function printAuthToken(runtimeOpts: RuntimeOpts, serverOpts: ServerOpts): void {
   if (!isLocalBindHost(serverOpts.host)) {
     console.log(
-      `\n\u26A0 IMPORTANT SECURITY WARNING:\n\nThe ${runtimeOpts.public ? "--public" : "--host"} flag exposes a shell (or a running app) with user level access to your computer over ${runtimeOpts.public ? "your LAN" : serverOpts.host}!` +
+      `\u26A0 IMPORTANT SECURITY WARNING:\n\nThe ${runtimeOpts.public ? "--public" : "--host"} flag exposes a shell (or a running app) with user level access to your computer over ${runtimeOpts.public ? "your LAN" : serverOpts.host}!` +
         `\nThe auth token is a safety mechanism to restrict general access, so DON'T SHARE it with anyone that you do not trust.`,
     )
   }
