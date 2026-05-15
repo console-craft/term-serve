@@ -1,6 +1,6 @@
 {
   "name": "@console-craft/term-serve",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Serve a local terminal in the browser (WebSocket + PTY).",
   "keywords": [
     "terminal",
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/console-craft/term-serve.git"
   },
-  "homepage": "https://term-serve.console-craft.com",
+  "homepage": "https://console-craft.com/term-serve",
   "bin": {
     "term-serve": "./src/bin/term-serve.ts"
   },
