@@ -116,7 +116,7 @@ export function getMotd(): string {
   const noBold = SGR_SEQUENCES.noBold
   const newLine = CRLF
 
-  return `${newLine}${color}TIP: ${bold}Ctrl+Alt+K${noBold} - open keymaps palette${reset}${newLine}`
+  return `${newLine}${color}${bold}TIP:${noBold} Discover keymaps using the titlebar search icon.${reset}${newLine}`
 }
 
 /**

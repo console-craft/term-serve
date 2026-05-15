@@ -104,7 +104,7 @@ Options:
   -C, --cwd <path>                        Start in the provided directory, default: current working directory
       --config <path>                     Load config from explicit file path. If not provided, the app tries to
                                             load "./term-serve.conf" from the invocation directory (if present).
-  -t, --theme <name>                      Terminal theme id, default: gruvware-dark
+  -t, --theme <name>                      Terminal theme id, default: gruvcraft-dark
       --list-themes                       List available terminal theme ids
       --font <font>                       Local system font to use for the terminal instead of the bundled "TermServe Mono"
                                             (patched JetBrains Mono Nerd Font). Examples: "Iosevka", "Fira Code", etc.
@@ -173,7 +173,7 @@ tunnel = false
 [terminal]
 
 # Terminal theme id.
-theme = "gruvware-dark"
+theme = "gruvcraft-dark"
 
 # Local system font to use for the terminal.
 font = "TermServe Mono" # bundled patched JetBrains Mono Nerd Font
@@ -228,8 +228,8 @@ tunnel = true
 - gruvbox-light-hard
 - gruvbox-light-medium
 - gruvbox-light-soft
-- gruvware-dark
-- gruvware-light
+- gruvcraft-dark
+- gruvcraft-light
 - houston
 - kanagawa-dragon
 - kanagawa-lotus

@@ -2,6 +2,7 @@
 
 import starlight from "@astrojs/starlight"
 import { defineConfig } from "astro/config"
+import { gruvcraftDarkCodeTheme, gruvcraftLightCodeTheme } from "./src/code-themes.mjs"
 
 const REPO_NAME = "term-serve"
 const isGitHubActions = process.env.GITHUB_ACTIONS === "true"
@@ -16,6 +17,7 @@ export default defineConfig({
       title: "term-serve",
       description: "Serve a local terminal in the browser (WebSocket + PTY).",
       tagline: "A browser terminal with real shell power.",
+      logo: { src: "./public/favicon.png", alt: "term-serve logo" },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/console-craft/term-serve" }],
       editLink: {
         baseUrl: "https://github.com/console-craft/term-serve/edit/main/docs-site/",
@@ -34,8 +36,26 @@ export default defineConfig({
             href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap",
           },
         },
+        { tag: "script", attrs: { src: `${basePath}/lightbox.js`, defer: true } },
       ],
-      customCss: ["./src/styles/gruvbox.css"],
+      customCss: [
+        "./src/styles/gruvbox.css",
+        "./src/styles/docs-components.css",
+        "./src/styles/docs-home.css",
+        "./src/styles/lightbox.css",
+      ],
+      expressiveCode: {
+        themes: [gruvcraftDarkCodeTheme, gruvcraftLightCodeTheme],
+        styleOverrides: {
+          codePaddingBlock: "0.1rem",
+          codePaddingInline: "0.5rem",
+          codeFontSize: "0.82rem",
+        },
+        useStarlightUiThemeColors: false,
+      },
+      components: {
+        Hero: "./src/components/Hero.astro",
+      },
       sidebar: [
         {
           label: "Start Here",

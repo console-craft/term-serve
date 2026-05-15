@@ -1,0 +1,153 @@
+.hero > img[data-lightbox-enhanced="true"],
+.sl-markdown-content img[data-lightbox-enhanced="true"],
+.ts-frame img[data-lightbox-enhanced="true"] {
+  cursor: zoom-in;
+}
+
+.hero > img[data-lightbox-enhanced="true"]:focus-visible,
+.sl-markdown-content img[data-lightbox-enhanced="true"]:focus-visible,
+.ts-frame img[data-lightbox-enhanced="true"]:focus-visible {
+  outline: 2px solid var(--sl-color-accent);
+  outline-offset: 0.25rem;
+}
+
+.ts-lightbox {
+  animation: ts-lightbox-fade-in 160ms ease-out;
+  background: transparent;
+  border: 0;
+  color: var(--sl-color-text);
+  margin: auto;
+  max-height: 90vh;
+  max-width: 90vw;
+  padding: 0;
+}
+
+.ts-lightbox::backdrop {
+  animation: ts-lightbox-backdrop-in 160ms ease-out;
+  background: color-mix(in oklab, var(--sl-color-black) 76%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.ts-lightbox--closing {
+  animation: ts-lightbox-fade-out 160ms ease-in forwards;
+}
+
+.ts-lightbox--closing::backdrop {
+  animation: ts-lightbox-backdrop-out 160ms ease-in forwards;
+}
+
+.ts-lightbox__figure {
+  background: var(--ts-color-card);
+  border: 1px solid var(--sl-color-hairline-light);
+  border-radius: var(--ts-radius);
+  box-shadow: var(--sl-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.ts-lightbox__image {
+  background: var(--ts-color-card-muted);
+  border-radius: calc(var(--ts-radius) * 0.7);
+  display: block;
+  max-height: calc(90vh - 4rem);
+  max-width: calc(90vw - 1rem);
+  object-fit: contain;
+  width: auto;
+}
+
+.ts-lightbox__caption {
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-xs);
+  margin: 0.55rem 0.1rem 0.1rem;
+}
+
+.ts-lightbox__close {
+  background: var(--ts-color-card);
+  border: 1px solid var(--sl-color-white);
+  box-shadow: var(--sl-shadow-sm);
+  border-radius: 999px;
+  color: var(--sl-color-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  font-weight: 700;
+  inset-block-start: -0.75rem;
+  inset-inline-end: -0.75rem;
+  padding: 0rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  line-height: 2em;
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  z-index: 1;
+}
+
+.ts-lightbox__close:hover,
+.ts-lightbox__close:focus-visible {
+  color: var(--sl-color-text-accent);
+}
+
+@media (max-width: 40rem) {
+  .ts-lightbox {
+    max-height: 94vh;
+    max-width: 96vw;
+  }
+
+  .ts-lightbox__image {
+    max-height: calc(94vh - 4rem);
+    max-width: calc(96vw - 1rem);
+  }
+
+  .ts-lightbox__close {
+    inset-block-start: 0.5rem;
+    inset-inline-end: 0.5rem;
+  }
+}
+
+@keyframes ts-lightbox-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ts-lightbox-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+
+@keyframes ts-lightbox-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ts-lightbox-backdrop-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

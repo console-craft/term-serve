@@ -3,70 +3,82 @@ title: term-serve
 description: Browser-first terminal access for local and remote workflows.
 template: splash
 hero:
-  tagline: Serve a real shell in your browser, keep latency low, and stay in control.
+  tagline: Serve a Terminal in the Browser
   image:
-    file: ../../assets/screenshots/landing-page/desktop.png
+    dark: ../../assets/screenshots/landing-page/screenshot-light.png
+    light: ../../assets/screenshots/landing-page/screenshot.png
   actions:
     - text: Quick Start
       link: ./getting-started/
       icon: right-arrow
-    - text: Config Reference
-      link: ./reference/config-reference/
-      icon: list-format
-    - text: GitHub
-      link: https://github.com/console-craft/term-serve
-      icon: external
+    - text: CLI flags
+      link: ./reference/cli-flags/
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import desktopShot from '../../assets/screenshots/landing-page/desktop.png';
-import mobileShot from '../../assets/screenshots/landing-page/mobile-portrait.png';
+<section class="ts-home-section ts-home-features" aria-labelledby="features">
+	<div class="ts-home-section-heading">
+		<span class="ts-home-eyebrow">Features</span>
+		<h2 id="features">Batteries-included</h2>
+	</div>
 
-## Built for practical terminal work
+	<div class="ts-home-feature-grid">
+		<article class="ts-home-feature ts-home-feature-primary">
+			<span class="ts-home-feature-tag">PTY over WebSocket</span>
+			<h3>Real shell sessions</h3>
+			<p>Starts an interactive PTY (bash, zsh, fish, etc.) and streams it over WebSocket.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">Private Networks</span>
+			<h3>Proxy friendly</h3>
+			<p>Works behind Caddy, nginx, ngrok, and other reverse proxies via forwarded headers.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">HTTPS Web Access</span>
+			<h3>Cloudflare tunnel</h3>
+			<p>Use <code>--tunnel</code> with an installed <code>cloudflared</code> binary for public HTTPS web access.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">Auth Token</span>
+			<h3>Secure by default</h3>
+			<p>Binds to <code>127.0.0.1</code> by default and auto-enables token auth when exposed beyond localhost.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">Command Sandbox</span>
+			<h3>Dedicated Commands</h3>
+			<p>Serve a specific command on connect (<code>btop</code>, <code>opencode</code>, custom scripts, etc.) instead of a login shell.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">Modifier Keys</span>
+			<h3>Mobile-capable UI</h3>
+			<p>Includes touch toolbar keys, sticky Ctrl/Alt, and copy mode tuned for scrollback.</p>
+		</article>
+		<article class="ts-home-feature">
+			<span class="ts-home-feature-tag">Scan QR Code</span>
+			<h3>Phone-ready access</h3>
+			<p>Prints QR codes for LAN and tunnel URLs so you can open the terminal client from your phone quickly.</p>
+		</article>
+	</div>
+</section>
 
-<CardGrid stagger>
-	<Card title="Real shell sessions" icon="terminal-window">
-		Starts an interactive PTY (bash, zsh, fish, etc.) and streams it over WebSocket.
-	</Card>
-	<Card title="Secure by default" icon="shield-check">
-		Binds to `127.0.0.1` by default and auto-enables token auth when exposed beyond localhost.
-	</Card>
-	<Card title="Phone-ready access" icon="seti:mobile">
-		Prints QR codes for LAN and tunnel URLs so you can open the terminal client from your phone quickly.
-	</Card>
-	<Card title="Cloudflare quick tunnel" icon="networking">
-		Use `--tunnel` with an installed `cloudflared` binary for temporary public HTTPS access.
-	</Card>
-	<Card title="Command mode" icon="seti:terminal">
-		Serve one command on connect (`htop`, `btop`, `opencode`, custom scripts) instead of a login shell.
-	</Card>
-	<Card title="Mobile-capable UI" icon="seti:mobile">
-		Includes touch toolbar keys, sticky Ctrl/Alt, and copy mode tuned for scrollback.
-	</Card>
-	<Card title="Themes and fonts" icon="paintbrush">
-		Ships with many terminal themes and configurable font + desktop/mobile font size controls.
-	</Card>
-	<Card title="Proxy friendly" icon="puzzle">
-		Works behind Caddy, nginx, ngrok, and other reverse proxies via forwarded headers.
-	</Card>
-</CardGrid>
+<section class="ts-home-section ts-home-next" aria-labelledby="where-next">
+	<div class="ts-home-section-heading">
+		<span class="ts-home-eyebrow">Explore</span>
+		<h2 id="where-next">Where to go next</h2>
+	</div>
 
-## Interface preview
-
-<div class="ts-interface-showcase">
-	<figure class="ts-frame ts-interface-desktop">
-		<img src={desktopShot.src} alt="term-serve desktop session screenshot" loading="lazy" />
-		<figcaption>Desktop session with keyboard-first terminal workflows.</figcaption>
-	</figure>
-	<figure class="ts-frame ts-interface-mobile">
-		<img src={mobileShot.src} alt="term-serve mobile session screenshot" loading="lazy" />
-		<figcaption>Mobile portrait session with touch toolbar and shell output.</figcaption>
-	</figure>
-</div>
-
-## Where to go next
-
-- Start with [Getting Started](./getting-started/) for launch patterns and common commands.
-- Use [Configuration File](./configuration/) for project-local settings and reproducible setups.
-- Review [Security and Networking](./security/) before exposing `term-serve` outside localhost.
+	<div class="ts-home-next-grid">
+		<a class="ts-home-next-card" href="./getting-started/">
+			<span>01</span>
+			<p><strong>Getting Started</strong> - launch patterns and common commands.</p>
+		</a>
+		<a class="ts-home-next-card" href="./configuration/">
+			<span>02</span>
+			<p><strong>Configuration File</strong> -  project-local settings and reproducible setups.</p>
+		</a>
+		<a class="ts-home-next-card" href="./security/">
+			<span>03</span>
+			<p><strong>Security and Networking</strong> - exposing <code>term-serve</code> outside localhost.</p>
+		</a>
+	</div>
+</section>

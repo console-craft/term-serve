@@ -39,7 +39,7 @@
 html,
 body {
   height: 100%;
-  background-color: #33302e;
+  background-color: #302e2c;
   overscroll-behavior: none;
 }
 
@@ -61,32 +61,19 @@ body {
   }
 }
 
-@property --spotlight-x {
-  syntax: "<percentage>";
-  inherits: false;
-  initial-value: 50%;
-}
-
-@property --spotlight-y {
-  syntax: "<percentage>";
-  inherits: false;
-  initial-value: 50%;
-}
-
-.spotlight-bg {
-  --spotlight-x: 50%;
-  --spotlight-y: 50%;
-  background-color: #000;
-  background-image:
-    radial-gradient(
-      600px circle at var(--spotlight-x) var(--spotlight-y),
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.07) 70%,
-      transparent 90%
-    ),
-    linear-gradient(0deg, #3b3634 0%, #33302e 100%);
+.page-bg {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in oklab, #7daea3 16%, transparent), transparent 40%),
+    radial-gradient(circle at 88% 8%, rgba(181, 118, 20, 0.1), transparent 38%), #302e2c;
   background-repeat: no-repeat;
-  animation: drift 35s ease-in-out infinite alternate;
+  background-size:
+    100vw 100vh,
+    100vw 100vh,
+    auto;
+  background-position:
+    top left,
+    top left,
+    top left;
 }
 
 .hidden {
@@ -732,32 +719,5 @@ body {
   }
   50% {
     opacity: 0.5;
-  }
-}
-
-@keyframes drift {
-  0% {
-    --spotlight-x: 30%;
-    --spotlight-y: 35%;
-  }
-
-  25% {
-    --spotlight-x: 70%;
-    --spotlight-y: 30%;
-  }
-
-  50% {
-    --spotlight-x: 55%;
-    --spotlight-y: 65%;
-  }
-
-  75% {
-    --spotlight-x: 25%;
-    --spotlight-y: 70%;
-  }
-
-  100% {
-    --spotlight-x: 75%;
-    --spotlight-y: 55%;
   }
 }

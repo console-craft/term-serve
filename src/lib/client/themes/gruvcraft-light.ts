@@ -1,6 +1,6 @@
 import type { ITheme } from "ghostty-web"
 
-// Generated from Shiki theme: gruvware-light
+// Generated from Shiki theme: gruvcraft-light
 export const theme = {
   foreground: "#3c3836",
   background: "#fbf1c7",

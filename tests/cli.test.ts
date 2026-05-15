@@ -163,7 +163,7 @@ describe("term-serve CLI public API", () => {
 
     expect(res.exitCode).toBe(0)
     expect(res.stderr.trim()).toBe("")
-    expect(res.stdout).toContain("gruvware-dark")
+    expect(res.stdout).toContain("gruvcraft-dark")
     expect(res.stdout).toContain("gruvbox-dark-medium")
     expect(res.stdout).toContain("tokyo-night")
     expect(res.stdout).toContain("none")

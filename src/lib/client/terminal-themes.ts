@@ -25,8 +25,8 @@ import { theme as gruvboxDarkSoft } from "./themes/gruvbox-dark-soft"
 import { theme as gruvboxLightHard } from "./themes/gruvbox-light-hard"
 import { theme as gruvboxLightMedium } from "./themes/gruvbox-light-medium"
 import { theme as gruvboxLightSoft } from "./themes/gruvbox-light-soft"
-import { theme as gruvwareDark } from "./themes/gruvware-dark"
-import { theme as gruvwareLight } from "./themes/gruvware-light"
+import { theme as gruvcraftDark } from "./themes/gruvcraft-dark"
+import { theme as gruvcraftLight } from "./themes/gruvcraft-light"
 import { theme as houston } from "./themes/houston"
 import { theme as kanagawaDragon } from "./themes/kanagawa-dragon"
 import { theme as kanagawaLotus } from "./themes/kanagawa-lotus"
@@ -63,7 +63,7 @@ import { theme as vitesseBlack } from "./themes/vitesse-black"
 import { theme as vitesseDark } from "./themes/vitesse-dark"
 import { theme as vitesseLight } from "./themes/vitesse-light"
 
-export const DEFAULT_TERMINAL_THEME_ID = "gruvware-dark" as const
+export const DEFAULT_TERMINAL_THEME_ID = "gruvcraft-dark" as const
 
 export const TERMINAL_THEME_IDS = [
   "andromeeda",
@@ -91,8 +91,8 @@ export const TERMINAL_THEME_IDS = [
   "gruvbox-light-hard",
   "gruvbox-light-medium",
   "gruvbox-light-soft",
-  "gruvware-dark",
-  "gruvware-light",
+  "gruvcraft-dark",
+  "gruvcraft-light",
   "houston",
   "kanagawa-dragon",
   "kanagawa-lotus",
@@ -159,8 +159,8 @@ const TERMINAL_THEME_BY_ID: Record<Exclude<TerminalThemeId, "none">, ITheme> = {
   "gruvbox-light-hard": gruvboxLightHard,
   "gruvbox-light-medium": gruvboxLightMedium,
   "gruvbox-light-soft": gruvboxLightSoft,
-  "gruvware-dark": gruvwareDark,
-  "gruvware-light": gruvwareLight,
+  "gruvcraft-dark": gruvcraftDark,
+  "gruvcraft-light": gruvcraftLight,
   houston: houston,
   "kanagawa-dragon": kanagawaDragon,
   "kanagawa-lotus": kanagawaLotus,

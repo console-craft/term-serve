@@ -136,7 +136,25 @@ describe("HTTP routes", () => {
       expect(res.status).toBe(200)
       expect(res.headers.get("content-type")).toContain("text/html")
       expect(text).toContain("Term Serve")
+      expect(text).toContain('rel="icon"')
       expect(text).toContain('id="terminal"')
+    })
+  })
+
+  test("GET favicon asset serves the app favicon", async () => {
+    await withServer(async (baseUrl) => {
+      const indexRes = await fetch(`${baseUrl}/`)
+      const text = await indexRes.text()
+      const href = text.match(/<link rel="icon" type="image\/png" href="([^"]+)"/)?.[1]
+
+      expect(href).toBeTruthy()
+
+      const res = await fetch(new URL(href as string, baseUrl))
+      const bytes = new Uint8Array(await res.arrayBuffer())
+
+      expect(res.status).toBe(200)
+      expect(res.headers.get("content-type")).toContain("image/png")
+      expect([...bytes.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
     })
   })
 
