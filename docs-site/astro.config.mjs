@@ -74,7 +74,10 @@ export default defineConfig({
         },
         {
           label: "Operations",
-          items: [{ label: "Run as a systemd Service", slug: "operations/systemd" }],
+          items: [
+            { label: "Run as a systemd Service", slug: "operations/systemd" },
+            { label: "Enable logging", slug: "operations/enable-logging" },
+          ],
         },
         {
           label: "Reference",

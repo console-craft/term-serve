@@ -29,15 +29,15 @@ Only these flat keys are valid:
 
 ### `[auth]`
 
-| Key | Type |
-| --- | --- |
-| `auth_token` | string |
+| Key | Type | Notes |
+| --- | --- | --- |
+| `auth_token` | string | Same meaning as top-level `auth_token` |
 
 ### `[shell]`
 
-| Key | Type |
-| --- | --- |
-| `cwd` | string |
+| Key | Type | Notes |
+| --- | --- | --- |
+| `cwd` | string | Initial working directory |
 
 ### `[terminal]`
 
@@ -49,9 +49,9 @@ Only these flat keys are valid:
 
 ### `[logging]`
 
-| Key | Type |
-| --- | --- |
-| `verbose` | boolean |
+| Key | Type | Notes |
+| --- | --- | --- |
+| `verbose` | boolean | Enable verbose logging |
 
 ### `[command]`
 

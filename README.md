@@ -26,11 +26,6 @@ Serve a local terminal in the browser (WebSocket + PTY).
 - 🧾 Verbose structured logs (`--verbose`) with request/connection IDs and best-effort remote IP detection.
 - 📦 Fast, single-binary distribution.
 
-## Roadmap
-
-- Bundled AI agent (Pi) - completely turned off by default, use it if you like with your own API keys (`OpenRouter`, `OpenCode Zen`, etc.) or OAuth logins (`OpenAI` / `Github Copilot` / `Google Gemini`).
-- Electron based client app - manage multiple `term-serve` sessions, provide a richer UI (tabs, settings form, etc.), and integrate with the OS (native notifications, system-tray/dock, etc.).
-
 ## Non-Goals
 
 - Persistent session management (reconnect/attach to the same PTY after a refresh/disconnect) -> Use a terminal multiplexer like `tmux` or `screen` inside the served shell if you need that.

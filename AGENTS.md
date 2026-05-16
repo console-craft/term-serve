@@ -25,11 +25,6 @@ ghostty-web + bun server: serve a local terminal in the browser (WebSocket + PTY
 - Patch file: `patches/ghostty-web@0.4.0-next.7.g03ead6e.patch`.
 - If `ghostty-web` is upgraded, re-check whether upstream includes the fix and remove or refresh the local patch accordingly.
 
-## Roadmap
-
-- Bundled AI agent (Pi) - completely turned off by default, use it if you like with your own API keys (`OpenRouter`, `OpenCode Zen`, etc.) or OAuth logins (`OpenAI` / `Github Copilot` / `Google Gemini`).
-- Electron based client app - manage multiple `term-serve` sessions, provide a richer UI (tabs, settings form, etc.), and integrate with the OS (native notifications, system-tray/dock, etc.).
-
 ## Repo Map
 
 - `src/cli.ts`: CLI entrypoint (parse args -> resolve runtime/server opts -> start server/tunnel -> print URL/token/QR/help output)
